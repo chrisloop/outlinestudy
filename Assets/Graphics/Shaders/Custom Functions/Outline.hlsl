@@ -19,7 +19,7 @@ float3 DecodeNormal(float4 enc)
     return n;
 }
 
-void Outline_float(float2 UV, float OutlineThickness, float DepthSensitivity, float NormalsSensitivity, float ColorSensitivity, float4 OutlineColor, out float4 Out, out float3 Normals, out float3 Original, out float Alpha)
+void Outline_float(float2 UV, float OutlineThickness, float DepthSensitivity, float NormalsSensitivity, float ColorSensitivity, float4 OutlineColor, out float4 Out, out float3 Normals, out float3 Original, out float Alpha, out float Outlines, out float SceneDepth)
 {
     float halfScaleFloor = floor(OutlineThickness * 0.5);
     float halfScaleCeil = ceil(OutlineThickness * 0.5);
@@ -70,6 +70,9 @@ void Outline_float(float2 UV, float OutlineThickness, float DepthSensitivity, fl
 
     Normals = DecodeNormal(SAMPLE_TEXTURE2D(_CameraDepthNormalsTexture, sampler_CameraDepthNormalsTexture, UV));
     Original = SAMPLE_TEXTURE2D(_CameraColorTexture, sampler_CameraColorTexture, UV);
+
+    Outlines = edge;
+    SceneDepth = SAMPLE_TEXTURE2D(_CameraDepthTexture, sampler_CameraDepthTexture, UV).r;
 }
 
 
